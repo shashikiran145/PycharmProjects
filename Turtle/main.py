@@ -12,7 +12,7 @@ timmy.backward(200)
 timmy.pendown()
 timmy.left(90)
 timmy.forward(100)
-timmy.back(50)
+timmy.back(75)
 
 
 myscreen = Screen()
