@@ -25,7 +25,7 @@ count = 0
 
 angle = 0
 
-for sides in range(4, 10):
+for sides in range(3, 11):
     angle = 360/sides
     for _ in range(sides):
         tim.forward(100)
