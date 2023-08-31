@@ -55,18 +55,34 @@ def random_colour():
     tim.color(r, g, b)
 
 
-move = [0, 90, 180, 270, 360]
+# move = [0, 90, 180, 270, 360]
+#
+# tim.shape("arrow")
+# tim.pensize(5)
+# tim.speed(10)
+#
+# for count in range(200):
+#     tim.forward(50)
+#     tim.setheading(random.choice(move))
+#     random_colour()
 
-tim.shape("arrow")
-tim.pensize(5)
-tim.speed(10)
+# Colour circles (spirograph) #
 
-for count in range(200):
-    tim.forward(50)
-    tim.setheading(random.choice(move))
-    random_colour()
+tim.speed(25)
+# for count in range(25):
+#     tim.circle(100)
+#     tim.left(15)
+#     random_colour()
 
 
+def draw_spirograph(size_of_gap):
+    for _ in range(int(360 / size_of_gap)):
+        random_colour()
+        tim.circle(100)
+        tim.setheading(tim.heading() + size_of_gap)
+
+
+draw_spirograph(10)
 
 
 screen = Screen()
