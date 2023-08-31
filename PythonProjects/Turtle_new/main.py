@@ -1,4 +1,5 @@
 from turtle import Turtle, Screen
+import random
 
 tim = Turtle()
 tim.shape('turtle')
@@ -24,14 +25,19 @@ count = 0
 # Drawing different shapes
 
 angle = 0
+colour = ["DarkSlateBlue", "blue2", "azure4", "cyan1", "chocolate", "CadetBlue", "CornFlowerBlue",
+          "DarkMagenta", "black", "BlueViolet", "DarkRed"]
 
-for sides in range(3, 11):
+def draw_shape(sides):
     angle = 360/sides
     for _ in range(sides):
         tim.forward(100)
         tim.left(angle)
 
 
+for sides_n in range(3, 11):
+    draw_shape(sides_n)
+    tim.color(random.choice(colour))
 
 
 
