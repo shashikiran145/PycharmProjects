@@ -31,8 +31,19 @@ screen = Screen()
 # screen.onkey(key="d", fun=move_right)
 # screen.onkey(key="c", fun=clear_screen)
 
+tim = Turtle()
+tim.shape('circle')
+tim.penup()
+tim.goto(x=230, y=-210)
+tim.pendown()
+tim.left(90)
+tim.forward(420)
+
 screen.setup(width=500, height=400)
-user_input = screen.textinput(title="Who is going to win?", prompt="Choose a turtle")
+user_input = screen.textinput(title="Who is going to win?",
+                              prompt="Choose a turtle among 'black', 'red','blue', "
+                                     "'green', 'yellow', 'pink'")
+
 print("You chose " + user_input)
 colours = ["black", "red", "blue", "green", "yellow", "pink"]
 y_positions = [-15, -45, -75, 15, 45, 75]
@@ -46,13 +57,14 @@ for turtle_index in range(0, 6):
     new_turtle.goto(x=-230, y=y_positions[turtle_index])
     all_turtles.append(new_turtle)
 
+
 # if user_input:
 #     is_race_on = True
 
 while user_input:
     for turtle in all_turtles:
         turtle.forward(random.choice(steps))
-        if turtle.xcor() > 240:
+        if turtle.xcor() > 230:
             result = turtle.color()
             screen.bye()
             if user_input == turtle.color():
@@ -60,13 +72,8 @@ while user_input:
                 exit()
             else:
                 print("You lost!")
+                print("The " + turtle.pencolor() + " turtle won")
                 exit()
-
-
-# if user_input == turtle.color():
-#     print("You win!")
-# else:
-#     print("You Lose!")
 
 screen.exitonclick()
 
