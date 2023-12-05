@@ -14,9 +14,9 @@ class CarManager:
         self.car_speed = STARTING_MOVE_DISTANCE
 
     def create_car(self):
-        # Create a car only 6th time the game loop runs. This is to facilitate the turtle to cross
         random_chance = random.randint(1, 6)
         if random_chance == 1:
+            # Create a car only 6th time the game loop runs. This is to facilitate the turtle to cross
             new_car = Turtle('square')
             new_car.shapesize(1, 2)
             new_car.penup()
