@@ -50,14 +50,59 @@ import pandas
 # temp = temp*1.8 + 32
 # print(temp)
 
-data_dict = {
-    "students":["Amy", "James", "Angela"],
-    "scores": [76, 56, 65]
-}
+# data_dict = {
+#     "students": ["Amy", "James", "Angela"],
+#     "scores": [76, 56, 65]
+# }
 
 # Initialise a DataFrame from scratch                      # DataFrame is 2D, Series is 1D. Refer to documentation
-data = pandas.DataFrame(data_dict)
-print(data)
-data.to_csv("new_weather.csv")
+# data = pandas.DataFrame(data_dict)
+# print(data)
+# data.to_csv("new_weather.csv")
+# Create a csv using in-built library in pandas
+
+# data = pandas.read_csv("2018_Central_Park_Squirrel_Census_-_Squirrel_Data_20231208.csv")
+# color = data["Primary Fur Color"]
+# print(color)
+# print(len(color))
+# color_gray = data[color == "Gray"]
+# print(len(color_gray))
+# color_cinnamon = data[color == "Cinnamon"]
+# print(len(color_cinnamon))
+# color_black = data[color == "Black"]
+# print(len(color_black))
+
+# data = pandas.read_csv("2018_Central_Park_Squirrel_Census_-_Squirrel_Data_20231208.csv")
+# color = data["Primary Fur Color"].to_list()
+# gray = 0
+# cinnamon = 0
+# black = 0
+# for yes in color:
+#     if yes == "Gray":
+#         gray += 1
+#     elif yes == "Cinnamon":
+#         cinnamon += 1
+#     elif yes == "Black":
+#         black += 1
+# print(gray)
+# print(cinnamon)
+# print(black)
+
+
+data = pandas.read_csv("2018_Central_Park_Squirrel_Census_-_Squirrel_Data_20231208.csv")
+color_gray = len(data[data["Primary Fur Color"] == "Gray"])
+color_cinnamon = len(data[data["Primary Fur Color"] == "Cinnamon"])
+color_black = len(data[data["Primary Fur Color"] == "Black"])
+
+data_dict = {
+    "Fur color": ["Gray", "Cinnamon", "Black"],
+    "Count": [color_gray, color_cinnamon, color_black]
+}
+
+new_data = pandas.DataFrame(data_dict)
+new_data.to_csv("Squirrel_color_count.csv")
+print(new_data)
+
+
 
 
