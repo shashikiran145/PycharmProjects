@@ -18,6 +18,7 @@ turtle.shape(image)
 data = pandas.read_csv("50_states.csv")
 all_states = data.state.to_list()
 guessed_states = []
+missed_states = []
 
 while len(guessed_states) < 50:
     answer_state = screen.textinput(title=f"{len(guessed_states)}/50 states correct",
@@ -25,11 +26,12 @@ while len(guessed_states) < 50:
     print(answer_state)
 
     if answer_state == "Exit":
+        missed_states = [state for state in all_states if state not in guessed_states]
         break
 
     if answer_state in all_states:
         guessed_states.append(answer_state)
-        all_states.remove(answer_state)
+#       all_states.remove(answer_state)
         t = Turtle()
         t.hideturtle()
         t.penup()
@@ -38,7 +40,7 @@ while len(guessed_states) < 50:
 #       t.write(answer_state)
         t.write(state_data.state.item())
 
-data = pandas.DataFrame(all_states)
+data = pandas.DataFrame(missed_states)
 data.to_csv("states_to_learn.csv", index=False)
 
 
