@@ -1,0 +1,3 @@
+amazon | shashi@email.com | 12345 
+google | shashi@email.com | 09876 
+fb | shashi@email.com | yes 
