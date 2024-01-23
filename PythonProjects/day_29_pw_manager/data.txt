@@ -1,3 +1,8 @@
 amazon | shashi@email.com | 12345 
 google | shashi@email.com | 09876 
 fb | shashi@email.com | yes 
+a | shashi@email.com | 1 
+a | shashi@email.com | a 
+a | shashi@email.com | a 
+google | shashi@email.com | xL91uYiDfI8f23 
+google | shashi@email.com | G952Z3h2j6VCEs3V 
