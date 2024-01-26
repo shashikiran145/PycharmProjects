@@ -29,8 +29,17 @@ new_dict = {row.letter: row.code for (index, row) in db_names.iterrows()}
 print(new_dict)
 
 # Create a list of the phonetic code words from a word that the user inputs
-name = input("Enter a name").upper()
-output_name = [new_dict[letter] for letter in name]
-print(output_name)
+def generate_phonetic():
+    name = input("Enter a name").upper()
+    try:
+        output_name = [new_dict[letter] for letter in name]
+    except KeyError:
+        print("Enter a letter or a word")
+        generate_phonetic()
+    else:
+        print(output_name)
+
+
+generate_phonetic()
 
 
