@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 #Password Generator Project
@@ -34,20 +35,74 @@ def generate_password():
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save():
 
-    if len(website_entry.get()) == 0 or len(email_entry.get()) == 0 or len(password_entry.get()) == 0:
+    website = website_entry.get()
+    email = email_entry.get()
+    password = password_entry.get()
+
+    new_data = {
+        website : {
+            "email" : email,
+            "password": password
+        }
+    }
+
+    if len(website) == 0 or len(email) == 0 or len(password) == 0:
         messagebox.showwarning(title="Warning", message="Please don't leave any fields empty")
 
     else:
 
         message = messagebox.askokcancel(title="Info", message=f"These are the details entered\n"
-                                                               f"Website: {website_entry.get()}\n"
-                                                               f"Email: {email_entry.get()}\n"
+                                                               f"Website: {website}\n"
+                                                               f"Email: {email}\n"
                                                                f"Are you sure?")
         if message:
-            with open("data.txt", mode="a") as data_file:
-                data_file.write(f"{website_entry.get()} | {email_entry.get()} | {password_entry.get()} \n")
-            website_entry.delete(0, END)
-            password_entry.delete(0, END)
+            try:
+                with open("data.json", mode="r") as data_file:
+                    # Reading the old data
+                    data = json.load(data_file)
+                    print(data)
+
+            except FileNotFoundError:
+                with open("data.json", mode="w") as data_file:
+                    # Saving the updated data
+                    json.dump(new_data, data_file, indent=4)
+
+            else:
+                # Updating the old data with new data
+                data.update(new_data)
+                with open("data.json", mode="w") as data_file:
+                    # Saving the updated data
+                    json.dump(data, data_file, indent=4)
+            finally:
+                website_entry.delete(0, END)
+                password_entry.delete(0, END)
+
+        # if message:
+        #     with open("data.txt", mode="a") as data_file:
+        #         data_file.write(f"{website_entry.get()} | {email_entry.get()} | {password_entry.get()} \n")
+        #     website_entry.delete(0, END)
+        #     password_entry.delete(0, END)
+
+
+# ---------------------------- FIND PW ------------------------------- #
+
+
+def find_password():
+    website = website_entry.get()
+    try:
+        with open("data.json") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="File not found!")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\n Password: {password}")
+        else:
+            messagebox.showinfo(title="Error", message="Website not found!")
+
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -64,14 +119,14 @@ canvas.grid(row=0, column=1)
 website_label = Label(text="Website:")
 website_label.grid(row=1, column=0)
 
-website_entry = Entry(width=35)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry = Entry(width=21)
+website_entry.grid(row=1, column=1)
 website_entry.focus()
 
 email_label = Label(text="Email/Username:")
 email_label.grid(row=2, column=0)
 
-email_entry = Entry(width=35)
+email_entry = Entry(width=36)
 email_entry.grid(row=2, column=1, columnspan=2)
 email_entry.insert(0, "shashi@email.com")
 
@@ -86,6 +141,9 @@ generate_pw_button.grid(row=3, column=2)
 
 add_button = Button(text="Add", width=36, command=save)
 add_button.grid(row=4, column=1, columnspan=2)
+
+search_button = Button(text="Search", width=14, command=find_password)
+search_button.grid(row=1, column=2, columnspan=1)
 
 
 window.mainloop()
