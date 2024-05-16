@@ -29,3 +29,9 @@
 # plt.grid(True)
 # plt.show()
 
+def add(x,y):
+    sum = x + y
+    sum2 = (x+y)*(x+y)
+    return sum, sum2
+
+print(add(1,2)[1])
