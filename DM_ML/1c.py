@@ -1,77 +1,69 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 
-def simulate_bernoulli(n, p):
-  """Simulates a Bernoulli random variable with success probability p.
 
-  Args:
-    n: Number of samples.
-    p: Success probability.
+# Function to simulate Bernoulli trials and compute sample averages
+def simulate_bernoulli_trials(n, p):
+    trials = np.random.binomial(1, p, n)
+    return np.cumsum(trials) / np.arange(1, n + 1)
 
-  Returns:
-    A NumPy array of Bernoulli trials (0 for failure, 1 for success).
-  """
-  return np.random.choice([0, 1], size=n, p=[1 - p, p])
 
-def plot_sample_average(n):
-  """Plots the sample average vs. iterations for a Bernoulli trial with varying p.
+# Part (a): Plotting the sample average vs iterations for a biased coin
+def plot_sample_average_vs_iterations(n, p):
+    sample_averages = simulate_bernoulli_trials(n, p)
 
-  Args:
-    n: Number of samples.
-  """
-  biased_ps = [0.3, 0.9]  # List of success probabilities for biased coins
-  for p in biased_ps:
-    samples = simulate_bernoulli(n, p)
-    sample_means = np.cumsum(samples) / np.arange(1, n + 1)
+    plt.figure(figsize=(10, 5))
+    plt.plot(sample_averages, label=f'p={p}')
+    plt.axhline(y=p, color='r', linestyle='--', label='True Mean')
+    plt.xlabel('Iterations')
+    plt.ylabel('Sample Average')
+    plt.title('Sample Average vs Iterations')
+    plt.legend()
+    plt.show()
 
-    plt.plot(sample_means, label=f"p={p}")  # Add label for each plot
 
-  plt.xlabel("Iterations (k)")
-  plt.ylabel("Sample Average")
-  plt.title(f"Sample Average vs. Iterations (n={n})")
-  plt.grid(True)
-  plt.legend()  # Show legend for different probabilities
-  plt.show()
+# Function to perform experiments and compute averages
+def perform_experiments(n, m, p):
+    averages_matrix = np.zeros((n, m))
 
-def plot_experiment_averages(n, m):
-  """Plots the average vs. sample size with error bars for multiple experiments with varying p.
+    for k in range(1, n + 1):
+        for j in range(m):
+            sample = np.random.binomial(1, p, k)
+            averages_matrix[k - 1, j] = np.mean(sample)
 
-  Args:
-    n: Number of samples per experiment (k).
-    m: Number of experiments.
-  """
-  biased_ps = [0.3, 0.9]  # List of success probabilities for biased coins
-  for p in biased_ps:
-    results = experiment(n, m, p)
-    averages = np.mean(results, axis=0)
-    stds = np.std(results, axis=0)
+    return averages_matrix
 
-    plt.errorbar(np.arange(1, n + 1), averages, yerr=stds, fmt='o-', label=f"p={p}")
 
-  plt.xlabel("Sample Size (k)")
-  plt.ylabel("Average")
-  plt.title(f"Averages vs. Sample Size with Error Bars (n={n}, m={m})")
-  plt.grid(True)
-  plt.legend()  # Show legend for different probabilities
-  plt.show()
+# Part (b): Plotting average vs sample size with error bars
+def plot_averages_with_error_bars(n, m, p):
+    averages_matrix = perform_experiments(n, m, p)
+    means = np.mean(averages_matrix, axis=1)
+    std_devs = np.std(averages_matrix, axis=1)
 
-def experiment(n, m, p):
-  """Performs m experiments of drawing k elements from a Bernoulli distribution.
+    plt.figure(figsize=(10, 5))
+    plt.errorbar(np.arange(1, n + 1), means, yerr=std_devs, fmt='o', label=f'p={p}')
+    plt.axhline(y=p, color='r', linestyle='--', label='True Mean')
+    plt.xlabel('Sample Size')
+    plt.ylabel('Average')
+    plt.title('Average vs Sample Size with Error Bars')
+    plt.legend()
+    plt.show()
 
-  Args:
-    n: Number of samples per experiment (k).
-    m: Number of experiments.
-    p: Success probability.
 
-  Returns:
-    A NumPy array of shape (m, n) containing averages for each experiment.
-  """
-  # ... (same as previous implementation)
+# Main function to run the tests for p = 0.3 and p = 0.9
+def main():
+    n = 1000
+    m = 10
+    probabilities = [0.3, 0.9]
 
-# Set parameters
-n = 1000
-m = 10
+    for p in probabilities:
+        print(f"Running simulation for p = {p}")
+        # Part (a)
+        plot_sample_average_vs_iterations(n, p)
 
-# Call plotting functions
-plot_sample_average(n)
-plot_experiment_averages(n, m)
+        # Part (b)
+        plot_averages_with_error_bars(n, m, p)
+
+
+if __name__ == "__main__":
+    main()
