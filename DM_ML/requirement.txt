@@ -1,0 +1,7 @@
+Environment:
+
+Python version: 3.9
+Virtual environment: venv from Python
+Matplotlib version: 3.8.4
+NumPy version: 1.26.4
+Scipy version: 1.13.0
